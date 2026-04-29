@@ -4,8 +4,11 @@ services:
     container_name: ai-stack-lab-3011
     ports:
       - "3011:3000"
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=file:/app/data/app.db
+      - ADMIN_SESSION_SECRET=${ADMIN_SESSION_SECRET}
     volumes:
       - ./data:/app/data
     restart: unless-stopped

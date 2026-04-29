@@ -1,4 +1,4 @@
-import { loginAdminAction } from "@/app/admin/actions";
+import { LoginForm } from "@/app/admin/login/login-form";
 
 export const metadata = {
   title: "Admin Login",
@@ -27,39 +27,7 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        <form action={loginAdminAction} style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
-          <div className="admin-field">
-            <label htmlFor="email" className="admin-label">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="admin-input"
-            />
-          </div>
-
-          <div className="admin-field">
-            <label htmlFor="password" className="admin-label">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className="admin-input"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn-primary"
-            style={{ width: "100%", justifyContent: "center", marginTop: "0.5rem" }}
-          >
-            Sign in
-          </button>
-        </form>
+        <LoginForm />
       </div>
     </div>
   );

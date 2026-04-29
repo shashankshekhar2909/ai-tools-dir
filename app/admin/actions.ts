@@ -6,6 +6,10 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { authenticateAdmin, clearSession, createSession, requireAdmin } from "@/lib/admin/auth";
 
+export type LoginState = {
+  error: string | null;
+};
+
 const parseCsv = (value: FormDataEntryValue | null) =>
   JSON.stringify(
     String(value || "")
@@ -14,12 +18,15 @@ const parseCsv = (value: FormDataEntryValue | null) =>
       .filter(Boolean),
   );
 
-export async function loginAdminAction(formData: FormData) {
+export async function loginAdminAction(
+  _prevState: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
   const email = String(formData.get("email") || "").trim().toLowerCase();
   const password = String(formData.get("password") || "");
   const user = await authenticateAdmin(email, password);
   if (!user) {
-    redirect("/admin/login");
+    return { error: "Invalid email or password." };
   }
   await createSession(user.id);
   redirect("/admin");
