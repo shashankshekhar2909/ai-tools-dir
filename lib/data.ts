@@ -1,4 +1,7 @@
 import { Category, Guide, Tool } from "@/lib/types";
+import WEBSITE_URLS from "@/data/tool-urls.json";
+
+const websiteUrlForSlug = (slug: string): string => WEBSITE_URLS[slug] ?? `https://${slug}.com`;
 
 export const categories: Category[] = [
   { id: "c1", name: "AI Assistants", slug: "ai-assistants", description: "General-purpose assistants for writing, ideation, and rapid execution." },
@@ -33,7 +36,7 @@ const t = (
   cons: ["Can get expensive at scale", "Output still needs human review"],
   useCases: ["Rapid prototyping", "Content generation", "Team workflow acceleration"],
   tags: ["ai", "builder", "workflow"],
-  websiteUrl: `https://${slug}.com`,
+  websiteUrl: websiteUrlForSlug(slug),
   isEditorsPick: ["chatgpt", "claude", "cursor", "perplexity", "github-copilot"].includes(slug),
   isHot: ["codex", "v0", "bolt", "replit"].includes(slug),
   alternatives: ["chatgpt", "claude", "gemini"].filter((s) => s !== slug),

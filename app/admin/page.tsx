@@ -3,6 +3,11 @@ import { requireAdmin } from "@/lib/admin/auth";
 
 const sections = [
   {
+    href: "/admin/tools/new",
+    label: "Add New Tool",
+    desc: "Create a new tool entry with URL, pricing, tags, and category.",
+  },
+  {
     href: "/admin/tools",
     label: "Manage Tools",
     desc: "Add, edit, and remove tools from the directory.",
@@ -21,6 +26,11 @@ const sections = [
     href: "/admin/newsletter",
     label: "Newsletter Subscribers",
     desc: "View all captured subscriber emails.",
+  },
+  {
+    href: "/admin/users",
+    label: "Manage Admin Users",
+    desc: "Create admins and update account passwords.",
   },
 ];
 

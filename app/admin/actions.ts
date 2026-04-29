@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { authenticateAdmin, clearSession, createSession, requireAdmin } from "@/lib/admin/auth";
 
@@ -150,4 +151,46 @@ export async function deleteToolAction(formData: FormData) {
   await prisma.tool.delete({ where: { id } });
   revalidatePath("/admin/tools");
   revalidatePath("/tools");
+}
+
+export async function createAdminUserAction(formData: FormData) {
+  await requireAdmin();
+  const email = String(formData.get("email") || "").trim().toLowerCase();
+  const password = String(formData.get("password") || "");
+  if (!email || password.length < 8) return;
+
+  const passwordHash = await bcrypt.hash(password, 10);
+  await prisma.adminUser.create({
+    data: {
+      email,
+      password: passwordHash,
+    },
+  });
+  revalidatePath("/admin/users");
+}
+
+export async function updateAdminPasswordAction(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") || "").trim();
+  const password = String(formData.get("password") || "");
+  if (!id || password.length < 8) return;
+
+  const passwordHash = await bcrypt.hash(password, 10);
+  await prisma.adminUser.update({
+    where: { id },
+    data: { password: passwordHash },
+  });
+  revalidatePath("/admin/users");
+}
+
+export async function deleteAdminUserAction(formData: FormData) {
+  const currentUser = await requireAdmin();
+  const id = String(formData.get("id") || "").trim();
+  if (!id || id === currentUser.id) return;
+
+  const totalUsers = await prisma.adminUser.count();
+  if (totalUsers <= 1) return;
+
+  await prisma.adminUser.delete({ where: { id } });
+  revalidatePath("/admin/users");
 }

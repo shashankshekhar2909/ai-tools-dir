@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { logoutAdminAction } from "@/app/admin/actions";
+import { getSessionUser } from "@/lib/admin/auth";
 
 const adminNav = [
   { href: "/admin", label: "Dashboard" },
@@ -7,9 +8,13 @@ const adminNav = [
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/guides", label: "Guides" },
   { href: "/admin/newsletter", label: "Newsletter" },
+  { href: "/admin/users", label: "Users" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const user = await getSessionUser();
+  if (!user) return <>{children}</>;
+
   return (
     <div>
       {/* Admin sub-nav */}

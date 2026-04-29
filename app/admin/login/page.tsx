@@ -34,7 +34,6 @@ export default function AdminLoginPage() {
               id="email"
               name="email"
               type="email"
-              placeholder="admin@aistacklab.dev"
               autoComplete="email"
               required
               className="admin-input"
@@ -47,7 +46,6 @@ export default function AdminLoginPage() {
               id="password"
               name="password"
               type="password"
-              placeholder="••••••••"
               autoComplete="current-password"
               required
               className="admin-input"

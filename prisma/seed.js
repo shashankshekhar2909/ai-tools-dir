@@ -2,6 +2,9 @@ const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 
 const prisma = new PrismaClient();
+const WEBSITE_URLS = require("../data/tool-urls.json");
+
+const websiteUrlForSlug = (slug) => WEBSITE_URLS[slug] || `https://${slug}.com`;
 
 const categories = [
   { name: "AI Assistants", slug: "ai-assistants", description: "General-purpose assistants for writing, ideation, and rapid execution." },
@@ -186,7 +189,7 @@ async function main() {
         cons,
         useCases: JSON.stringify(useCasesByCategory[categorySlug] || ["General Productivity"]),
         tags: JSON.stringify(["ai", "builder", ...(tagsByCategory[categorySlug] || ["workflow"])]),
-        websiteUrl: `https://${slug}.com`,
+        websiteUrl: websiteUrlForSlug(slug),
         isEditorsPick: ["chatgpt", "claude", "cursor", "perplexity", "github-copilot", "n8n", "elevenlabs"].includes(slug),
         isHot: ["codex", "v0", "bolt", "replit", "runway", "luma-dream-machine"].includes(slug),
       },
