@@ -326,53 +326,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ─── Newsletter ───────────────────────────────────────────────────── */}
-      <section
-        style={{
-          maxWidth: "80rem",
-          margin: "0 auto",
-          padding: "0 1.5rem 6rem",
-        }}
-      >
-        <div className="newsletter-block">
-          <span className="eyebrow">Weekly Builder Brief</span>
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              color: "var(--text-primary)",
-              margin: "0.5rem 0 0.75rem",
-            }}
-          >
-            Stay sharp. Ship faster.
-          </h2>
-          <p style={{ fontSize: "0.9375rem", lineHeight: 1.6, color: "var(--text-secondary)", margin: 0 }}>
-            Practical AI stack updates, tested workflows, and honest picks — every week.
-            No noise, no affiliate spam.
-          </p>
-          <form
-            className="newsletter-form"
-            method="post"
-            action="/api/newsletter"
-          >
-            <label htmlFor="newsletter-email" className="cds--visually-hidden">
-              Email address
-            </label>
-            <input
-              id="newsletter-email"
-              name="email"
-              type="email"
-              placeholder="you@company.com"
-              required
-            />
-            <button type="submit" className="btn-primary">
-              Join
-            </button>
-          </form>
-        </div>
-      </section>
-
     </div>
   );
 }

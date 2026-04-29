@@ -273,6 +273,54 @@ body {
   }
 }
 
+// ─── Carbon pagination shell ────────────────────────────────────────────────
+.pagination-shell {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .cds--pagination {
+    width: min(100%, 52rem);
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .cds--pagination__left,
+  .cds--pagination__right,
+  .cds--select-input,
+  .cds--pagination__control-buttons,
+  .cds--pagination__control-button {
+    background: transparent;
+    color: var(--text-secondary);
+    border-color: var(--border-subtle);
+  }
+
+  .cds--select-input:focus,
+  .cds--pagination__control-button:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .cds--list-box__menu {
+    background: var(--surface-1) !important;
+    border-color: var(--border-subtle) !important;
+  }
+
+  .cds--list-box__menu-item,
+  .cds--list-box__menu-item__option {
+    color: var(--text-secondary) !important;
+  }
+
+  .cds--list-box__menu-item:hover {
+    background: var(--surface-2) !important;
+    color: var(--text-primary) !important;
+  }
+}
+
 // ─── Tool CTA (card-level) ────────────────────────────────────────────────────
 .btn-tool-cta {
   display: inline-flex;

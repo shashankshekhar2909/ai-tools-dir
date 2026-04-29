@@ -1,10 +1,11 @@
 import { ToolCard } from "@/components/tool-card";
 import { ToolsFilterBar } from "@/components/tools-filter-bar";
+import { ToolsPagination } from "@/components/tools-pagination";
 import { getCategories } from "@/lib/db/categories";
-import { getTools } from "@/lib/db/tools";
+import { getToolsPage } from "@/lib/db/tools";
 import { Category, Tool } from "@/lib/types";
 
-type Params = { q?: string; category?: string; pricing?: string; useCase?: string };
+type Params = { q?: string; category?: string; pricing?: string; useCase?: string; page?: string; pageSize?: string };
 
 export const metadata = {
   title: "Tools Directory",
@@ -12,10 +13,19 @@ export const metadata = {
 
 export default async function ToolsPage({ searchParams }: { searchParams: Promise<Params> }) {
   const params = await searchParams;
-  const [categories, filtered] = await Promise.all([
+  const page = Math.max(1, Number(params.page || "1") || 1);
+  const pageSize = Math.max(1, Math.min(60, Number(params.pageSize || "12") || 12));
+
+  const [categories, paged] = await Promise.all([
     getCategories(),
-    getTools({ q: params.q?.trim(), category: params.category, pricing: params.pricing, useCase: params.useCase }),
+    getToolsPage(
+      { q: params.q?.trim(), category: params.category, pricing: params.pricing, useCase: params.useCase },
+      page,
+      pageSize,
+    ),
   ]);
+  const filtered = paged.tools;
+  const total = paged.total;
 
   const hasFilters = !!(params.q || params.category || params.pricing || params.useCase);
 
@@ -39,7 +49,7 @@ export default async function ToolsPage({ searchParams }: { searchParams: Promis
         defaultPricing={params.pricing ?? ""}
         defaultUseCase={params.useCase ?? ""}
         hasFilters={hasFilters}
-        resultCount={filtered.length}
+        resultCount={total}
       />
 
       {/* Results grid */}
@@ -77,6 +87,17 @@ export default async function ToolsPage({ searchParams }: { searchParams: Promis
           </div>
         )}
       </div>
+      {total > 0 && (
+        <ToolsPagination
+          totalItems={total}
+          page={page}
+          pageSize={pageSize}
+          q={params.q}
+          category={params.category}
+          pricing={params.pricing}
+          useCase={params.useCase}
+        />
+      )}
     </div>
   );
 }

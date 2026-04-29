@@ -16,6 +16,8 @@ import { useRouter, usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/tools", label: "Tools" },
+  { href: "/stack", label: "Stack" },
+  { href: "/workflows", label: "Workflows" },
   { href: "/compare", label: "Compare" },
   { href: "/blog", label: "Guides" },
   { href: "/help", label: "Help" },
@@ -32,6 +34,10 @@ export function SiteHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   // Close drawer on route change
   useEffect(() => {

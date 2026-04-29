@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.scss";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { AppShell } from "@/components/app-shell";
 
 const siteUrl = "https://buildwithshashank.com";
 const siteName = "AI Stack Lab";
@@ -96,11 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="gtag-init" strategy="afterInteractive">
           {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-JGPPGPKBZH');`}
         </Script>
-        <SiteHeader />
-        <main className="cds--content" style={{ minHeight: "calc(100vh - 56px)" }}>
-          {children}
-        </main>
-        <SiteFooter />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

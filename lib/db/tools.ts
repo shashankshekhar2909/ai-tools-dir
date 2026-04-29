@@ -51,26 +51,55 @@ const toTool = (row: ToolRow): Tool => ({
   alternatives: [],
 });
 
+function buildToolWhere(filters?: { q?: string; category?: string; pricing?: string; useCase?: string }) {
+  return {
+    pricingType: filters?.pricing || undefined,
+    category: filters?.category ? { slug: filters.category } : undefined,
+    useCases: filters?.useCase ? { contains: filters.useCase } : undefined,
+    OR: filters?.q
+      ? [
+          { name: { contains: filters.q } },
+          { shortDescription: { contains: filters.q } },
+          { tags: { contains: filters.q } },
+          { bestFor: { contains: filters.q } },
+        ]
+      : undefined,
+  };
+}
+
 export async function getTools(filters?: { q?: string; category?: string; pricing?: string; useCase?: string }): Promise<Tool[]> {
   const rows = (await prisma.tool.findMany({
-    where: {
-      pricingType: filters?.pricing || undefined,
-      category: filters?.category ? { slug: filters.category } : undefined,
-      useCases: filters?.useCase ? { contains: filters.useCase } : undefined,
-      OR: filters?.q
-        ? [
-            { name: { contains: filters.q } },
-            { shortDescription: { contains: filters.q } },
-            { tags: { contains: filters.q } },
-            { bestFor: { contains: filters.q } },
-          ]
-        : undefined,
-    },
+    where: buildToolWhere(filters),
     include: { category: true },
     orderBy: { rating: "desc" },
   })) as ToolRow[];
 
   return rows.map((row: ToolRow) => toTool(row));
+}
+
+export async function getToolsPage(
+  filters: { q?: string; category?: string; pricing?: string; useCase?: string },
+  page: number,
+  pageSize: number,
+): Promise<{ tools: Tool[]; total: number }> {
+  const safePage = Math.max(1, page);
+  const safePageSize = Math.max(1, Math.min(pageSize, 60));
+  const skip = (safePage - 1) * safePageSize;
+
+  const [rows, total] = await Promise.all([
+    prisma.tool.findMany({
+      where: buildToolWhere(filters),
+      include: { category: true },
+      orderBy: { rating: "desc" },
+      skip,
+      take: safePageSize,
+    }),
+    prisma.tool.count({
+      where: buildToolWhere(filters),
+    }),
+  ]);
+
+  return { tools: (rows as ToolRow[]).map((row: ToolRow) => toTool(row)), total };
 }
 
 export async function getToolBySlug(slug: string): Promise<Tool | null> {

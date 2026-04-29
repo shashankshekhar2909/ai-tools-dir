@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { deleteToolAction } from "@/app/admin/actions";
+import { AdminToolsPagination } from "@/components/admin-tools-pagination";
 import { requireAdmin } from "@/lib/admin/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -7,12 +8,24 @@ export const metadata = {
   title: "Admin — Tools",
 };
 
-export default async function AdminToolsPage() {
+type Params = { page?: string; pageSize?: string };
+
+export default async function AdminToolsPage({ searchParams }: { searchParams: Promise<Params> }) {
   await requireAdmin();
-  const tools = await prisma.tool.findMany({
-    include: { category: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const params = await searchParams;
+  const page = Math.max(1, Number(params.page || "1") || 1);
+  const pageSize = Math.max(1, Math.min(60, Number(params.pageSize || "20") || 20));
+  const skip = (page - 1) * pageSize;
+
+  const [tools, total] = await Promise.all([
+    prisma.tool.findMany({
+      include: { category: true },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+    }),
+    prisma.tool.count(),
+  ]);
 
   return (
     <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "2.5rem 1.5rem" }}>
@@ -31,7 +44,7 @@ export default async function AdminToolsPage() {
             Tools
           </h1>
           <p style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
-            {tools.length} tool{tools.length !== 1 ? "s" : ""} in directory
+            {total} tool{total !== 1 ? "s" : ""} in directory
           </p>
         </div>
         <Link href="/admin/tools/new" className="btn-primary" style={{ textDecoration: "none" }}>
@@ -89,6 +102,7 @@ export default async function AdminToolsPage() {
           </p>
         )}
       </div>
+      {total > 0 && <AdminToolsPagination totalItems={total} page={page} pageSize={pageSize} />}
     </div>
   );
 }

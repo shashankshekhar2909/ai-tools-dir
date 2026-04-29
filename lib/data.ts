@@ -1,7 +1,8 @@
 import { Category, Guide, Tool } from "@/lib/types";
 import WEBSITE_URLS from "@/data/tool-urls.json";
 
-const websiteUrlForSlug = (slug: string): string => WEBSITE_URLS[slug] ?? `https://${slug}.com`;
+const WEBSITE_URLS_MAP = WEBSITE_URLS as Record<string, string>;
+const websiteUrlForSlug = (slug: string): string => WEBSITE_URLS_MAP[slug] ?? `https://${slug}.com`;
 
 export const categories: Category[] = [
   { id: "c1", name: "AI Assistants", slug: "ai-assistants", description: "General-purpose assistants for writing, ideation, and rapid execution." },

@@ -10,6 +10,7 @@ const socials = [
 
 const navLinks = [
   { href: "/tools", label: "Tools" },
+  { href: "/workflows", label: "Workflows" },
   { href: "/compare", label: "Compare" },
   { href: "/blog", label: "Guides" },
   { href: "/help", label: "Help" },
