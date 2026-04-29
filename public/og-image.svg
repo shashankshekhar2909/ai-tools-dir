@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0F172A"/>
+  <rect x="40" y="40" width="1120" height="550" rx="24" fill="url(#g)"/>
+  <text x="90" y="250" fill="#0F172A" font-size="72" font-family="Arial, sans-serif" font-weight="700">AI Stack Lab</text>
+  <text x="90" y="320" fill="#334155" font-size="36" font-family="Arial, sans-serif">Tested AI tools, workflows, and stacks</text>
+  <text x="90" y="370" fill="#334155" font-size="36" font-family="Arial, sans-serif">for people who actually ship.</text>
+  <text x="90" y="500" fill="#0E7490" font-size="30" font-family="Arial, sans-serif" font-weight="700">BuildWithShashank</text>
+  <defs>
+    <linearGradient id="g" x1="40" y1="40" x2="1160" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECFEFF"/>
+      <stop offset="1" stop-color="#FFEDD5"/>
+    </linearGradient>
+  </defs>
+</svg>

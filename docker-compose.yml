@@ -1,0 +1,11 @@
+services:
+  ai-stack-lab:
+    build: .
+    container_name: ai-stack-lab-3011
+    ports:
+      - "3011:3000"
+    environment:
+      - DATABASE_URL=file:/app/data/app.db
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

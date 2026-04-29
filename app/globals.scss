@@ -1,0 +1,65 @@
+// Carbon Design System — g10 (light) base with premium SaaS surface layer.
+// Dark mode is applied via [data-theme="dark"] on <html> (see theme-toggle.tsx).
+//
+// All visible surfaces/text/borders are driven by the --surface-*, --text-*,
+// --border-* custom properties defined in _premium.scss, which has a full
+// [data-theme="dark"] override block. Carbon's own --cds-* tokens stay g10
+// at all times — that's fine because every Carbon component we render
+// (Header, HeaderGlobalAction) is overridden by _premium.scss selectors.
+//
+// SASS @use order rule: ALL @use declarations must precede any CSS output.
+
+@use "@carbon/styles/scss/themes" as *;
+@use "@carbon/styles" with (
+  $theme: $g10
+);
+@use "premium";
+
+// ─── Site-level overrides ────────────────────────────────────────────────────
+
+// Allow the Carbon Header to be sticky without z-index collisions
+.cds--header {
+  position: sticky;
+  top: 0;
+  z-index: 8000;
+}
+
+// Prevent Carbon's content-offset when side nav is used (we don't use SideNav)
+.cds--content {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+// Smooth scroll
+html {
+  scroll-behavior: smooth;
+}
+
+// Body — use our premium surface token (the !important in _premium.scss wins;
+// this is a readable fallback reference only)
+body {
+  background-color: var(--surface-0);
+  color: var(--text-primary);
+}
+
+// Line-clamp helpers (Carbon doesn't ship these)
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

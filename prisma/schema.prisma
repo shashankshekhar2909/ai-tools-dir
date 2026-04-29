@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tool {
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  categoryId       String
+  pricingType      String
+  startingPrice    String?
+  rating           Float
+  shortDescription String
+  longDescription  String
+  bestFor          String
+  pros             String
+  cons             String
+  useCases         String
+  tags             String
+  websiteUrl       String?
+  affiliateUrl     String?
+  isEditorsPick    Boolean  @default(false)
+  isHot            Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  tools       Tool[]
+}
+
+model Guide {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  readingTime String
+  type        String
+  publishedAt DateTime
+  createdAt   DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,40 @@
+{
+  "name": "ai-stack-lab",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@carbon/icons-react": "^11.79.0",
+    "@carbon/react": "^1.106.0",
+    "@carbon/styles": "^1.105.0",
+    "@prisma/client": "^6.15.0",
+    "bcryptjs": "^3.0.3",
+    "next": "15.0.3",
+    "prisma": "^6.15.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "sass": "^1.99.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "autoprefixer": "10.4.20",
+    "eslint": "9.14.0",
+    "eslint-config-next": "15.0.3",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.15",
+    "typescript": "5.6.3"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}
