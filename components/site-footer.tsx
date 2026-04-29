@@ -33,10 +33,10 @@ export function SiteFooter() {
         }}
       >
         <div
+          className="footer-grid"
           style={{
             display: "grid",
             gap: "2.5rem",
-            gridTemplateColumns: "1.5fr 1fr 1.5fr",
           }}
         >
           {/* Brand block */}
