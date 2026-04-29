@@ -1,0 +1,47 @@
+x-app-base: &app-base
+  build: .
+  environment:
+    DATABASE_URL: file:/app/data/app.db
+    ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET}
+    SITE_URL: ${SITE_URL:-https://ai.buildwithshashank.com}
+    NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://ai.buildwithshashank.com}
+  volumes:
+    - ./data:/app/data
+  restart: unless-stopped
+  healthcheck:
+    test:
+      [
+        "CMD-SHELL",
+        "node -e \"fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\"",
+      ]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+    start_period: 60s
+
+services:
+  app-blue:
+    <<: *app-base
+    container_name: ai-stack-lab-blue
+
+  app-green:
+    <<: *app-base
+    container_name: ai-stack-lab-green
+    profiles:
+      - green
+
+  proxy:
+    build:
+      context: ./proxy
+    container_name: ai-stack-lab-proxy
+    environment:
+      PORT: 80
+      RUNTIME_DIR: /app/runtime
+    ports:
+      - "80:80"
+    volumes:
+      - ./.runtime:/app/runtime
+    restart: unless-stopped
+    depends_on:
+      app-blue:
+        condition: service_healthy
