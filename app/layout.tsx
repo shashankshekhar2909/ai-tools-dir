@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.scss";
 import { AppShell } from "@/components/app-shell";
+import { getSiteUrl } from "@/lib/site";
 
-const siteUrl = "https://buildwithshashank.com";
+const siteUrl = getSiteUrl();
 const siteName = "AI Stack Lab";
 const description = "Tested AI tools, workflows, and stacks for people who actually ship.";
 

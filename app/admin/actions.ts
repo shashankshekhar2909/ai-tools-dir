@@ -19,7 +19,7 @@ export async function loginAdminAction(formData: FormData) {
   const password = String(formData.get("password") || "");
   const user = await authenticateAdmin(email, password);
   if (!user) {
-    redirect("/admin/login");
+    redirect("/admin/login?error=invalid_credentials");
   }
   await createSession(user.id);
   redirect("/admin");

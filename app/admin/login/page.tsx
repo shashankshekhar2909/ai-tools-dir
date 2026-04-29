@@ -4,7 +4,12 @@ export const metadata = {
   title: "Admin Login",
 };
 
-export default function AdminLoginPage() {
+type LoginParams = { error?: string };
+
+export default async function AdminLoginPage({ searchParams }: { searchParams: Promise<LoginParams> }) {
+  const params = await searchParams;
+  const hasInvalidCreds = params.error === "invalid_credentials";
+
   return (
     <div
       style={{
@@ -25,6 +30,21 @@ export default function AdminLoginPage() {
           <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginTop: "0.375rem" }}>
             Sign in to manage tools, guides, and categories.
           </p>
+          {hasInvalidCreds && (
+            <p
+              style={{
+                marginTop: "0.625rem",
+                fontSize: "0.8125rem",
+                color: "#ef4444",
+                background: "rgba(239, 68, 68, 0.08)",
+                border: "1px solid rgba(239, 68, 68, 0.25)",
+                borderRadius: "6px",
+                padding: "0.55rem 0.7rem",
+              }}
+            >
+              Invalid email or password. Please try again.
+            </p>
+          )}
         </div>
 
         <form action={loginAdminAction} style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>

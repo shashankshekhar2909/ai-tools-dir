@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { logoutAdminAction } from "@/app/admin/actions";
 import { getSessionUser } from "@/lib/admin/auth";
 
@@ -10,6 +11,20 @@ const adminNav = [
   { href: "/admin/newsletter", label: "Newsletter" },
   { href: "/admin/users", label: "Users" },
 ];
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      "max-image-preview": "none",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await getSessionUser();

@@ -1,9 +1,45 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ToolCard } from "@/components/tool-card";
 import { getCategoryBySlug } from "@/lib/db/categories";
 import { getTools } from "@/lib/db/tools";
 import { Tool } from "@/lib/types";
+import { getSiteUrl } from "@/lib/site";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
+  if (!category) {
+    return {
+      title: "Category Not Found",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = `${category.name} AI Tools`;
+  const description = category.description;
+  const url = `${getSiteUrl()}/category/${category.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/category/${category.slug}` },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "website",
+      images: ["/og-image.svg"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.svg"],
+    },
+  };
+}
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

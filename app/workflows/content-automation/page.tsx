@@ -10,6 +10,10 @@ const steps = [
 
 export const metadata = {
   title: "Content Automation System",
+  description: "Workflow for AI-assisted content automation using ChatGPT, Claude, Canva, and n8n.",
+  alternates: {
+    canonical: "/workflows/content-automation",
+  },
 };
 
 export default function ContentAutomationPage() {

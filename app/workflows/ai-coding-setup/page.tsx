@@ -10,6 +10,10 @@ const steps = [
 
 export const metadata = {
   title: "AI Coding Setup",
+  description: "A practical AI coding setup workflow using Claude, Codex, Cursor, GitHub, and Docker.",
+  alternates: {
+    canonical: "/workflows/ai-coding-setup",
+  },
 };
 
 export default function AiCodingSetupPage() {

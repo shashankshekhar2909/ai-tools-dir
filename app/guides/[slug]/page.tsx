@@ -1,7 +1,43 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import { getGuideBySlug } from "@/lib/db/guides";
+import { getSiteUrl } from "@/lib/site";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const guide = await getGuideBySlug(slug);
+  if (!guide) {
+    return {
+      title: "Guide Not Found",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = guide.title;
+  const description = guide.excerpt;
+  const url = `${getSiteUrl()}/guides/${guide.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/guides/${guide.slug}` },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      images: ["/og-image.svg"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.svg"],
+    },
+  };
+}
 
 export default async function GuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

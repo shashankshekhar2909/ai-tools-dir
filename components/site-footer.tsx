@@ -69,7 +69,10 @@ export function SiteFooter() {
                 color: "var(--text-muted)",
               }}
             >
-              By BuildWithShashank
+              By{" "}
+              <Link href="https://buildwithshashank.com" target="_blank" rel="noopener noreferrer" className="footer-nav-link">
+                BuildWithShashank
+              </Link>
             </p>
           </div>
 
@@ -150,7 +153,11 @@ export function SiteFooter() {
             fontSize: "0.75rem",
           }}
         >
-          &copy; {new Date().getFullYear()} BuildWithShashank. All rights reserved.
+          &copy; {new Date().getFullYear()}{" "}
+          <Link href="https://buildwithshashank.com" target="_blank" rel="noopener noreferrer" className="footer-nav-link">
+            BuildWithShashank
+          </Link>
+          . All rights reserved.
         </div>
       </div>
     </footer>

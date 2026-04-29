@@ -10,6 +10,10 @@ const steps = [
 
 export const metadata = {
   title: "Build an MVP with AI",
+  description: "Step-by-step workflow to build and ship an MVP using ChatGPT, Claude, Codex, Cursor, and Docker/Vercel.",
+  alternates: {
+    canonical: "/workflows/build-mvp-with-ai",
+  },
 };
 
 export default function BuildMvpWithAiPage() {

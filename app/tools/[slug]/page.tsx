@@ -1,8 +1,44 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import { getAlternativeTools, getToolBySlug } from "@/lib/db/tools";
 import { getCategoryBySlug } from "@/lib/db/categories";
+import { getSiteUrl } from "@/lib/site";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const tool = await getToolBySlug(slug);
+  if (!tool) {
+    return {
+      title: "Tool Not Found",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description = tool.shortDescription;
+  const title = `${tool.name} Review, Pricing, Pros & Cons`;
+  const url = `${getSiteUrl()}/tools/${tool.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/tools/${tool.slug}` },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      images: ["/og-image.svg"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.svg"],
+    },
+  };
+}
 
 function PricingBadge({ type, price }: { type: string; price?: string }) {
   const cls =

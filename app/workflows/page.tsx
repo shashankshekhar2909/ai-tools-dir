@@ -29,6 +29,10 @@ const workflows = [
 
 export const metadata = {
   title: "Workflows",
+  description: "Practical AI workflows for builders: MVP shipping, coding setup, and content automation systems.",
+  alternates: {
+    canonical: "/workflows",
+  },
 };
 
 export default function WorkflowsPage() {
