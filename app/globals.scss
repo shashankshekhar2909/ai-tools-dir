@@ -24,15 +24,17 @@
   z-index: 8000;
 }
 
-// Prevent Carbon's content-offset when side nav is used (we don't use SideNav)
+// Prevent Carbon's content-offset when side nav is used (we don't use SideNav).
+// Reset horizontal edges — keep bottom padding so card margins don't collapse away.
 .cds--content {
-  padding-top: 0;
-  margin-top: 0;
+  padding: 0 0 clamp(2rem, 4vw, 4rem) !important;
+  margin: 0 !important;
 }
 
-// Smooth scroll
+// Smooth scroll + prevent horizontal overflow bleed on mobile
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 // Body — use our premium surface token (the !important in _premium.scss wins;
@@ -40,6 +42,7 @@ html {
 body {
   background-color: var(--surface-0);
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 
 // Line-clamp helpers (Carbon doesn't ship these)
