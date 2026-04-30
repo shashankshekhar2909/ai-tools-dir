@@ -14,6 +14,21 @@ const parseCsv = (value: FormDataEntryValue | null) =>
       .filter(Boolean),
   );
 
+function parsePositiveInt(value: FormDataEntryValue | null, fallback: number) {
+  const parsed = Number(String(value || ""));
+  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
+}
+
+function buildQuery(params: Record<string, string | number | undefined>) {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined || value === "") continue;
+    search.set(key, String(value));
+  }
+  const query = search.toString();
+  return query ? `?${query}` : "";
+}
+
 export async function loginAdminAction(formData: FormData) {
   const email = String(formData.get("email") || "").trim().toLowerCase();
   const password = String(formData.get("password") || "");
@@ -38,6 +53,7 @@ export async function createCategoryAction(formData: FormData) {
   if (!name || !slug || !description) return;
   await prisma.category.create({ data: { name, slug, description } });
   revalidatePath("/admin/categories");
+  redirect(`/admin/categories${buildQuery({ toast: "category_created" })}`);
 }
 
 export async function createGuideAction(formData: FormData) {
@@ -63,6 +79,7 @@ export async function createGuideAction(formData: FormData) {
   });
   revalidatePath("/admin/guides");
   revalidatePath("/blog");
+  redirect(`/admin/guides${buildQuery({ toast: "guide_created" })}`);
 }
 
 export async function deleteGuideAction(formData: FormData) {
@@ -72,6 +89,7 @@ export async function deleteGuideAction(formData: FormData) {
   await prisma.guide.delete({ where: { id } });
   revalidatePath("/admin/guides");
   revalidatePath("/blog");
+  redirect(`/admin/guides${buildQuery({ toast: "guide_deleted" })}`);
 }
 
 export async function createToolAction(formData: FormData) {
@@ -110,7 +128,9 @@ export async function createToolAction(formData: FormData) {
   });
 
   revalidatePath("/admin/tools");
-  revalidatePath("/tools");
+  const page = parsePositiveInt(formData.get("page"), 1);
+  const pageSize = parsePositiveInt(formData.get("pageSize"), 20);
+  redirect(`/admin/tools${buildQuery({ page, pageSize, toast: "tool_created" })}`);
 }
 
 export async function updateToolAction(formData: FormData) {
@@ -141,16 +161,24 @@ export async function updateToolAction(formData: FormData) {
   });
 
   revalidatePath("/admin/tools");
-  revalidatePath("/tools");
+  const page = parsePositiveInt(formData.get("page"), 1);
+  const pageSize = parsePositiveInt(formData.get("pageSize"), 20);
+  redirect(`/admin/tools${buildQuery({ page, pageSize, toast: "tool_updated" })}`);
 }
 
 export async function deleteToolAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") || "");
   if (!id) return;
+  const page = parsePositiveInt(formData.get("page"), 1);
+  const pageSize = parsePositiveInt(formData.get("pageSize"), 20);
+
   await prisma.tool.delete({ where: { id } });
   revalidatePath("/admin/tools");
-  revalidatePath("/tools");
+  const remaining = await prisma.tool.count();
+  const maxPage = Math.max(1, Math.ceil(remaining / pageSize));
+  const nextPage = Math.min(page, maxPage);
+  redirect(`/admin/tools${buildQuery({ page: nextPage, pageSize, toast: "tool_deleted" })}`);
 }
 
 export async function createAdminUserAction(formData: FormData) {
@@ -167,6 +195,7 @@ export async function createAdminUserAction(formData: FormData) {
     },
   });
   revalidatePath("/admin/users");
+  redirect(`/admin/users${buildQuery({ toast: "user_created" })}`);
 }
 
 export async function updateAdminPasswordAction(formData: FormData) {
@@ -181,6 +210,7 @@ export async function updateAdminPasswordAction(formData: FormData) {
     data: { password: passwordHash },
   });
   revalidatePath("/admin/users");
+  redirect(`/admin/users${buildQuery({ toast: "password_updated" })}`);
 }
 
 export async function deleteAdminUserAction(formData: FormData) {
@@ -193,4 +223,5 @@ export async function deleteAdminUserAction(formData: FormData) {
 
   await prisma.adminUser.delete({ where: { id } });
   revalidatePath("/admin/users");
+  redirect(`/admin/users${buildQuery({ toast: "user_deleted" })}`);
 }

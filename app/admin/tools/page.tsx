@@ -16,6 +16,10 @@ export default async function AdminToolsPage({ searchParams }: { searchParams: P
   const page = Math.max(1, Number(params.page || "1") || 1);
   const pageSize = Math.max(1, Math.min(60, Number(params.pageSize || "20") || 20));
   const skip = (page - 1) * pageSize;
+  const pageQuery = new URLSearchParams();
+  if (page > 1) pageQuery.set("page", String(page));
+  if (pageSize !== 20) pageQuery.set("pageSize", String(pageSize));
+  const querySuffix = pageQuery.toString() ? `?${pageQuery.toString()}` : "";
 
   const [tools, total] = await Promise.all([
     prisma.tool.findMany({
@@ -47,7 +51,7 @@ export default async function AdminToolsPage({ searchParams }: { searchParams: P
             {total} tool{total !== 1 ? "s" : ""} in directory
           </p>
         </div>
-        <Link href="/admin/tools/new" className="btn-primary" style={{ textDecoration: "none" }}>
+        <Link href={`/admin/tools/new${querySuffix}`} className="btn-primary" style={{ textDecoration: "none" }}>
           + Add Tool
         </Link>
       </div>
@@ -84,11 +88,13 @@ export default async function AdminToolsPage({ searchParams }: { searchParams: P
               </p>
             </div>
             <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
-              <Link href={`/admin/tools/${tool.id}/edit`} className="btn-secondary" style={{ textDecoration: "none", padding: "0.375rem 0.875rem", fontSize: "0.8125rem" }}>
+              <Link href={`/admin/tools/${tool.id}/edit${querySuffix}`} className="btn-secondary" style={{ textDecoration: "none", padding: "0.375rem 0.875rem", fontSize: "0.8125rem" }}>
                 Edit
               </Link>
               <form action={deleteToolAction}>
                 <input type="hidden" name="id" value={tool.id} />
+                <input type="hidden" name="page" value={page} />
+                <input type="hidden" name="pageSize" value={pageSize} />
                 <button type="submit" className="btn-danger">
                   Delete
                 </button>

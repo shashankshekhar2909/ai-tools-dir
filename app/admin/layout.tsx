@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { logoutAdminAction } from "@/app/admin/actions";
+import { AdminToast } from "@/components/admin-toast";
 import { getSessionUser } from "@/lib/admin/auth";
 
 const adminNav = [
@@ -76,6 +77,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </form>
       </nav>
 
+      <AdminToast />
       {children}
     </div>
   );
