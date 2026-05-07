@@ -166,7 +166,7 @@ MIT. Use it, fork it, learn from it.
 
 ## Credits
 
-- Built by [Shashank Shekhar](https://github.com/sunnyrocks1122) — [BuildWithShashank](https://buildwithshashank.com)
+- Built by [Shashank Shekhar]([https://github.com/](https://github.com/shashankshekhar2909)) — [BuildWithShashank](https://buildwithshashank.com)
 - Design system: [IBM Carbon](https://carbondesignsystem.com)
 - Inspiration: [Linear](https://linear.app), [Vercel](https://vercel.com), [Stripe Docs](https://stripe.com/docs), [Product Hunt](https://producthunt.com)
 
