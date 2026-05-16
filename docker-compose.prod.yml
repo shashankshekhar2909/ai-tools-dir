@@ -38,7 +38,7 @@ services:
       PORT: 80
       RUNTIME_DIR: /app/runtime
     ports:
-      - "80:80"
+      - "127.0.0.1:${PROXY_PORT:-3011}:80"
     volumes:
       - ./.runtime:/app/runtime
     restart: unless-stopped

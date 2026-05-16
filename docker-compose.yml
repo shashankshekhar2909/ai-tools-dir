@@ -3,7 +3,7 @@ services:
     build: .
     container_name: ai-stack-lab-3011
     ports:
-      - "3011:3000"
+      - "127.0.0.1:3011:3000"
     environment:
       - DATABASE_URL=file:/app/data/app.db
     volumes:
