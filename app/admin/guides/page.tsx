@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createGuideAction, deleteGuideAction } from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/admin/auth";
 import { prisma } from "@/lib/prisma";
@@ -12,9 +13,14 @@ export default async function AdminGuidesPage() {
 
   return (
     <div style={{ maxWidth: "56rem", margin: "0 auto", padding: "2.5rem 1.5rem" }}>
-      <h1 style={{ fontSize: "1.5rem", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--text-primary)", marginBottom: "1.75rem" }}>
-        Guides
-      </h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.75rem" }}>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--text-primary)", margin: 0 }}>
+          Guides
+        </h1>
+        <Link href="/admin/guides/import" className="btn-secondary" style={{ textDecoration: "none" }}>
+          Bulk Import
+        </Link>
+      </div>
 
       {/* Add guide form */}
       <div className="premium-card" style={{ padding: "1.75rem", marginBottom: "1.5rem" }}>

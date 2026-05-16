@@ -37,6 +37,8 @@ fi
 echo "Waiting for $next_service to pass health checks..."
 for _ in $(seq 1 60); do
   if docker compose -f "$COMPOSE_FILE" $compose_args exec -T "$next_service" node -e "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"; then
+    echo "Upserting tool catalog..."
+    docker compose -f "$COMPOSE_FILE" $compose_args exec -T "$next_service" node scripts/add-tools.mjs
     printf '%s\n' "$next_slot" > "$SLOT_FILE"
     echo "Cutover complete. Active slot is now $next_slot"
     exit 0

@@ -47,9 +47,14 @@ export default async function AdminToolsPage({ searchParams }: { searchParams: P
             {total} tool{total !== 1 ? "s" : ""} in directory
           </p>
         </div>
-        <Link href="/admin/tools/new" className="btn-primary" style={{ textDecoration: "none" }}>
-          + Add Tool
-        </Link>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <Link href="/admin/tools/import" className="btn-secondary" style={{ textDecoration: "none" }}>
+            Bulk Import
+          </Link>
+          <Link href="/admin/tools/new" className="btn-primary" style={{ textDecoration: "none" }}>
+            + Add Tool
+          </Link>
+        </div>
       </div>
 
       <div
