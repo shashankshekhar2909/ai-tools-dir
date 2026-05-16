@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { loginAdminAction } from "@/app/admin/actions";
 
 export const metadata = {
@@ -80,6 +81,26 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: P
             Sign in
           </button>
         </form>
+
+        <div
+          style={{
+            marginTop: "1.5rem",
+            paddingTop: "1.25rem",
+            borderTop: "1px solid var(--border-subtle)",
+            textAlign: "center",
+          }}
+        >
+          <Link
+            href="/"
+            style={{
+              fontSize: "0.8125rem",
+              color: "var(--text-muted)",
+              textDecoration: "none",
+            }}
+          >
+            &larr; Back to AI Stack Lab
+          </Link>
+        </div>
       </div>
     </div>
   );
