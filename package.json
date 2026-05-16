@@ -11,7 +11,9 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
     "tools:sync-urls": "node scripts/sync-tool-urls.mjs",
-    "tools:sync-urls:fix": "node scripts/sync-tool-urls.mjs --fix"
+    "tools:sync-urls:fix": "node scripts/sync-tool-urls.mjs --fix",
+    "tools:add": "node scripts/add-tools.mjs",
+    "tools:add:dry": "node scripts/add-tools.mjs --dry-run"
   },
   "dependencies": {
     "@carbon/icons-react": "^11.79.0",
