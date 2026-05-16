@@ -24,11 +24,16 @@
   // Typography helpers
   --text-primary:   #0a0a0f;
   --text-secondary: #374151;
-  --text-muted:     #6b7280;
+  --text-muted:     #52525b;
 
   // Shadow system — very soft for light mode
   --shadow-card:    0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
   --shadow-hover:   0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  // Hero glow — dual radial gradient (indigo + pink) for premium SaaS feel
+  --hero-glow-bg:
+    radial-gradient(ellipse 70% 55% at 28% 38%, rgba(99, 102, 241, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 78% 62%, rgba(236, 72, 153, 0.14) 0%, transparent 70%);
 }
 
 // ── Dark theme override ────────────────────────────────────────────────────────
@@ -58,6 +63,10 @@
   // Shadows — deeper for dark surfaces
   --shadow-card:    0 4px 24px rgba(0, 0, 0, 0.35);
   --shadow-hover:   0 8px 32px rgba(0, 0, 0, 0.40);
+
+  // Hero glow — keep single subtle indigo against dark background
+  --hero-glow-bg:
+    radial-gradient(ellipse 70% 50% at 30% 40%, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
 }
 
 // ─── Body background ─────────────────────────────────────────────────────────
@@ -108,11 +117,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      ellipse 70% 50% at 30% 40%,
-      rgba(99, 102, 241, 0.18) 0%,
-      transparent 70%
-    );
+    background: var(--hero-glow-bg);
     pointer-events: none;
     z-index: 0;
   }
