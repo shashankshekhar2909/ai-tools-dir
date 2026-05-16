@@ -47,7 +47,10 @@ export default async function AdminToolsPage({ searchParams }: { searchParams: P
             {total} tool{total !== 1 ? "s" : ""} in directory
           </p>
         </div>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          <Link href="/admin/tools/health" className="btn-secondary" style={{ textDecoration: "none" }}>
+            URL Health
+          </Link>
           <Link href="/admin/tools/import" className="btn-secondary" style={{ textDecoration: "none" }}>
             Bulk Import
           </Link>

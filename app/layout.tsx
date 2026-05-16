@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   publisher: "BuildWithShashank",
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
   },
   openGraph: {
     type: "website",

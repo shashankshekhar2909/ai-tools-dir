@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface SlimTool {
@@ -45,9 +45,41 @@ export function CompareClient({ tools, initialA, initialB }: Props) {
   const a = tools.find((t) => t.slug === slugA);
   const b = tools.find((t) => t.slug === slugB);
 
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(false), 1800);
+    return () => clearTimeout(t);
+  }, [copied]);
+
   function handleCompare(e: React.FormEvent) {
     e.preventDefault();
     router.push(`/compare?a=${slugA}&b=${slugB}`);
+  }
+
+  async function handleShare() {
+    if (typeof window === "undefined") return;
+    const url = `${window.location.origin}/compare?a=${slugA}&b=${slugB}`;
+    const shareData = {
+      title: a && b ? `${a.name} vs ${b.name} — AI Stack Lab` : "AI Stack Lab — Compare",
+      text: a && b ? `Compare ${a.name} and ${b.name} on AI Stack Lab` : "",
+      url,
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch {
+        // user dismissed — fall through to clipboard
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+    } catch {
+      // clipboard blocked — open prompt as last resort
+      window.prompt("Copy this comparison URL", url);
+    }
   }
 
   if (tools.length === 0) {
@@ -106,10 +138,21 @@ export function CompareClient({ tools, initialA, initialB }: Props) {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "flex-end", paddingBottom: "0" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", paddingBottom: "0" }}>
           <button type="submit" className="btn-primary" style={{ height: "2.5rem" }}>
             Compare
           </button>
+          {a && b ? (
+            <button
+              type="button"
+              onClick={handleShare}
+              className="btn-secondary"
+              style={{ height: "2.5rem" }}
+              aria-live="polite"
+            >
+              {copied ? "Copied!" : "Share"}
+            </button>
+          ) : null}
         </div>
       </form>
 

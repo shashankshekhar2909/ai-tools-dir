@@ -195,6 +195,35 @@ export async function deleteAdminUserAction(formData: FormData) {
   revalidatePath("/admin/users");
 }
 
+// ─── Tool URL sync ────────────────────────────────────────────────────────────
+// Mirrors scripts/sync-tool-urls.mjs but runnable from the admin dashboard.
+
+import websiteUrls from "@/data/tool-urls.json";
+
+const defaultToolUrl = (slug: string) => `https://${slug}.com`;
+const urlMap = websiteUrls as Record<string, string>;
+
+export async function syncToolUrlsAction() {
+  await requireAdmin();
+  const tools = await prisma.tool.findMany({
+    select: { id: true, slug: true, websiteUrl: true },
+  });
+
+  let applied = 0;
+  for (const tool of tools) {
+    const expected = urlMap[tool.slug] || defaultToolUrl(tool.slug);
+    if (tool.websiteUrl !== expected) {
+      await prisma.tool.update({ where: { id: tool.id }, data: { websiteUrl: expected } });
+      applied++;
+    }
+  }
+
+  revalidatePath("/admin/tools/health");
+  revalidatePath("/admin/tools");
+  revalidatePath("/tools");
+  redirect(`/admin/tools/health?applied=${applied}`);
+}
+
 // ─── Bulk guide import ────────────────────────────────────────────────────────
 // Upserts guides by slug. Existing guides updated in place; new ones inserted.
 

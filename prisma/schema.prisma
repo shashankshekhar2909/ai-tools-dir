@@ -64,3 +64,15 @@ model AdminUser {
   password  String
   createdAt DateTime @default(now())
 }
+
+model Click {
+  id        String   @id @default(cuid())
+  toolSlug  String
+  source    String?
+  referer   String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([toolSlug])
+  @@index([createdAt])
+}

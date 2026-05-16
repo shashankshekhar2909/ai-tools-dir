@@ -180,9 +180,9 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ slu
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           {tool.websiteUrl && (
             <a
-              href={tool.websiteUrl}
+              href={`/go/${tool.slug}?src=detail`}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className="btn-primary"
             >
               Visit {tool.name} &#8599;
