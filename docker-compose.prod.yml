@@ -7,7 +7,7 @@ x-app-base: &app-base
     NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://ai.buildwithshashank.com}
   volumes:
     - ./data:/app/data
-  restart: unless-stopped
+  restart: always
   healthcheck:
     test:
       [
@@ -41,7 +41,7 @@ services:
       - "127.0.0.1:${PROXY_PORT:-3011}:80"
     volumes:
       - ./.runtime:/app/runtime
-    restart: unless-stopped
+    restart: always
     depends_on:
       app-blue:
         condition: service_healthy

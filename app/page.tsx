@@ -6,6 +6,8 @@ import { getGuides } from "@/lib/db/guides";
 import { getEditorsPicks, getToolCounts } from "@/lib/db/tools";
 import { Category, Guide, Tool } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 // Category icons (inline SVG paths — kept minimal for zero extra dependencies)
 const categoryIcon: Record<string, string> = {
   "ai-assistants": "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14a7 7 0 0 1-5.5-2.7C7.2 14.5 9.5 13 12 13s4.8 1.5 5.5 3.3A7 7 0 0 1 12 19z",
